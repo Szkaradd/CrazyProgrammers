@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "./src/screens/Login";
@@ -14,11 +14,16 @@ const App = () => {
     <AuthContext.Provider value={{ user, setUser }}>
       <NavigationContainer>
         <Stack.Navigator>
-          {user ? (
-            <Stack.Screen name="Home" component={Home} />
-          ) : (
-            <Stack.Screen name="Login" component={Login} />
-          )}
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ title: "Login" }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ title: "Home" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </AuthContext.Provider>

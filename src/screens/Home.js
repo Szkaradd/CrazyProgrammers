@@ -7,6 +7,7 @@ const Home = ({ navigation }) => {
 
   const handleLogout = () => {
     setUser(null);
+    navigation.navigate("Login");
   };
 
   return (
