@@ -1,16 +1,47 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Profile from './Profile/Profile';
+import { StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import { Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button } from 'react-native';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ title: 'Welcome to my app!' }}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{ title: 'My Profile' }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
       <StatusBar style="auto" />
+      <Text>Welcome to my app!</Text>
+        <Button
+          title="Go to my profile"
+          onPress={() => navigation.navigate('Profile')}
+        />
     </View>
   );
 }
 
-// those are the styles for the App.js
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -19,3 +50,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
