@@ -6,7 +6,6 @@ const Home = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
 
   const handleLogout = () => {
-    navigation.navigate("Login");
     setUser(null);
   };
 

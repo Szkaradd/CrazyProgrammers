@@ -1,56 +1,28 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Profile from './Profile/Profile';
-import { StyleSheet } from 'react-native';
-import { View } from 'react-native';
-import { Text } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import { Button } from 'react-native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import Login from "./src/screens/Login";
+import Home from "./src/screens/Home";
+import AuthContext from "./src/AuthContext";
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
-function App() {
+const App = () => {
+  const [user, setUser] = React.useState(null);
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: 'Welcome to my app!' }}
-        />
-        <Stack.Screen
-          name="Profile"
-          component={Profile}
-          options={{ title: 'My Profile' }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
-function HomeScreen({ navigation }) {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-      <Text>Welcome to my app!</Text>
-        <Button
-          title="Go to my profile"
-          onPress={() => navigation.navigate('Profile')}
-        />
-    </View>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {user ? (
+            <Stack.Screen name="Home" component={Home} />
+          ) : (
+            <Stack.Screen name="Login" component={Login} />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 };
-
-export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default App;
