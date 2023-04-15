@@ -1,27 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Text, Alert } from 'react-native';
-//import CurrentTask from './CurrentTask';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
+const Timer = (props) => {
+  const navigation = useNavigation();
+  const task_details = props.task_details;
+  const duration = props.duration;
+  const [seconds, setSeconds] = useState(duration);
 
-const Timer = () => {
-  const [seconds, setSeconds] = useState(20);
+  const resetTimer = useCallback(() => {
+    setSeconds(duration);
+  }, [duration, task_details]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds(seconds => seconds - 1);
-    }, 1000);
+    resetTimer();
+  }, [resetTimer]);
 
-    return () => clearInterval(interval);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      resetTimer();
+      const interval = setInterval(() => {
+        setSeconds((seconds) => seconds - 1);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }, [resetTimer])
+  );
 
   useEffect(() => {
     if (seconds === 0) {
-        Alert.alert("Task Declined")
+      Alert.alert('Task accepted automatically');
+      navigation.navigate('CurrentTask', { task_details });
     }
   }, [seconds]);
 
   return (
-    <Text>{seconds} seconds</Text>
+    <Text style={{ color: 'white', fontSize: 15 }}>
+      After {seconds} seconds the task will be accepted
+    </Text>
   );
 };
 

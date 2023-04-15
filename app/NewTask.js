@@ -1,22 +1,38 @@
 import { Button } from 'react-native';
-import { View, Text, SafeAreaView, StyleSheet, Alert, Platform, StatusBar } from 'react-native';
-import { tasks } from './data/tasks';
+import { View, Text, SafeAreaView, StyleSheet, Alert, Platform, StatusBar, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Timer from './Timer';
+import { AssignTask } from './AssignTask';
+import React, { useState, useEffect } from 'react';
+import { tasks } from './data/tasks';
 
-function AssignTask() {
-    // TODO
-    var task = tasks[0];
-    return task;
+
+
+function GetNewTaskDetails(i) {
+    var task = tasks[i];
+    return [
+        { label: 'Weight', value: `${task.weight}kg` },
+        { label: 'Location', value: task.location },
+        { label: 'Destination', value: task.destination },
+        { label: 'Total Distance', value: `${task.total_distance}m` },
+        { label: 'Package ID', value: task.package_id },
+    ];
 }
 
-export default function NewTask() {
+export default function NewTask({ route }) {
   const navigation = useNavigation();
+  var { task_details } = route.params;
 
-  const handleCurrentTask = () => {
-    navigation.navigate('CurrentTask');
-  };
-  var task = AssignTask();
+  if (task_details == null) {
+    task_details = GetNewTaskDetails(0);
+  }
+
+  const ListItem = ({ item }) => (
+    <View style={list_styles.item}>
+      <Text style={list_styles.text}>{item.label}:</Text>
+      <Text style={list_styles.text}>{item.value}</Text>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,14 +41,15 @@ export default function NewTask() {
       </View>
 
       <View style={styles.task_container}>
-        <Text style={styles.text_style}>
-            Weight: {task.weight}kg {'\n'}
-            Location: {task.location} {'\n'}
-            Destination: {task.destination} {'\n'}
-            Total Distance: {task.total_distance}m {'\n'}
-            Package ID: {task.package_id} {'\n'}
-            <Timer />
-        </Text>
+        <FlatList
+          data={task_details}
+          renderItem={({ item }) => <ListItem item={item} />}
+          keyExtractor={(item, index) => index.toString()}
+          ItemSeparatorComponent={() => <View style={list_styles.separator} />}
+        />
+        <View style={styles.timer_container}>
+            <Timer task_details={task_details} duration={20}/>
+        </View>
       </View>
 
       <View style={styles.decision_container}>
@@ -40,10 +57,11 @@ export default function NewTask() {
             <Button
                 title="Accept"
                 color="white"
+                fontSize="50"
                 onPress={() => {
-                    Alert.alert("Task Accepted");
-                    handleCurrentTask();
-                    }
+                  Alert.alert("Task Accepted");
+                  navigation.navigate('CurrentTask', {task_details});
+                  }
                 }
             />
         </View>
@@ -51,13 +69,35 @@ export default function NewTask() {
             <Button
                 title="Decline"
                 color="white"
-                onPress={() => Alert.alert("Task Declined")} 
+                onPress={() => {
+                  Alert.alert("Task Declined");
+                  new_details = GetNewTaskDetails(1);
+                  navigation.navigate('NewTask', {task_details: new_details});
+                  }
+                }
             />
         </View>
       </View>
     </SafeAreaView>
   );
 }
+
+const list_styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: 22,
+      },
+      item: {
+        padding: 15,
+      },
+      text: {
+        fontSize: 20,
+        color: 'white',
+      },
+      separator: {
+        height: 1,
+      },
+});
 
 const styles = StyleSheet.create({
     container: {
@@ -74,14 +114,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     text_style: {
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: 'bold',
         color: 'white',
     },
     task_container: {
         backgroundColor: '#077dc9',
         flex: 4,
-        alignItems: 'center',
         justifyContent: 'center',
     },
     decision_container: {
@@ -102,6 +141,12 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    timer_container: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        paddingBottom: 15,
+        paddingLeft: 15,
     }
 });
 

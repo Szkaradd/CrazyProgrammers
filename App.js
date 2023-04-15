@@ -1,11 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Profile from './Profile/Profile';
+import NewTask from './app/NewTask';
 import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
 import { Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Button } from 'react-native';
+import CurrentTask from './app/CurrentTask';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +25,16 @@ function App() {
           component={Profile}
           options={{ title: 'My Profile' }}
         />
+        <Stack.Screen
+          name="NewTask"
+          component={NewTask}
+          options={{ title: 'New Task' }}
+        />
+        <Stack.Screen
+          name="CurrentTask"
+          component={CurrentTask}
+          options={{ title: 'Current Task' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -37,6 +49,10 @@ function HomeScreen({ navigation }) {
         <Button
           title="Go to my profile"
           onPress={() => navigation.navigate('Profile')}
+        />
+        <Button
+          title="View new task"
+          onPress={() => navigation.navigate('NewTask', {task_details: null})}
         />
     </View>
   );
