@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text } from "react-native";
 import Input from "../components/Input";
+import Button from "../components/Button";
 import api from "../utils/api";
 import AuthContext from "../AuthContext";
 
@@ -17,7 +18,7 @@ const Login = ({ navigation }) => {
       setErrorMessage("");
       const user = { username }; // or any other user information you want to store
       setUser(user);
-      navigation.navigate("Home");
+      navigation.navigate("DrawerNavigator");
     } else {
       setErrorMessage("Invalid username or password");
     }
