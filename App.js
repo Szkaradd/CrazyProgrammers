@@ -10,6 +10,7 @@ export default function App() {
   );
 }
 
+// those are the styles for the App.js
 const styles = StyleSheet.create({
   container: {
     flex: 1,
