@@ -1,10 +1,10 @@
 import { Button } from 'react-native';
 import { View, Text, SafeAreaView, StyleSheet, Alert, Platform, StatusBar, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Timer from './Timer';
+import Timer from '../Timer';
 import { AssignTask } from './AssignTask';
 import React, { useState, useEffect } from 'react';
-import { tasks } from './data/tasks';
+import { tasks } from '../data/tasks';
 
 
 

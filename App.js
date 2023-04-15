@@ -1,13 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Profile from './Profile/Profile';
-import NewTask from './app/NewTask';
+import NewTask from './app/Tasks/NewTask';
 import { StyleSheet } from 'react-native';
 import { View } from 'react-native';
 import { Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Button } from 'react-native';
-import CurrentTask from './app/CurrentTask';
+import CurrentTask from './app/Tasks/CurrentTask';
 
 const Stack = createNativeStackNavigator();
 
