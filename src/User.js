@@ -9,7 +9,7 @@ export const WorkPreference = {
 };
 
 const clockedIn = new Date();
-clockedIn.setHours(4);
+clockedIn.setHours(11);
 clockedIn.setMinutes(3);
 clockedIn.setSeconds(41);
 
