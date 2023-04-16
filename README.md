@@ -35,3 +35,11 @@ The core functionalities of our app are:
 - Showing user profile, including package preferences, time left to end shift and time left to break
 - Reminding about taking breaks, motivating the workers and encouraging them to exercise or rest during the breaks
 - An option for the employee to log in into the system
+
+### Running the app
+
+1. Clone the repo
+2. Run 'npm install'
+3. Run 'install'
+4. Run 'expo-cli start --tunnel'
+5. Install Expo Go application on your mobile device and scan the QR code that has appeared or select the desired option to see the app on web or android device emulator
