@@ -1,13 +1,11 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  Alert,
-  FlatList,
-  Button,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+/*
+This file contains the implementation of "Current Task" screen
+It shows information about currently assigned task and provides
+a button enabling the worker to finish the task in the application
+*/
+
+import { View, Text, SafeAreaView, StyleSheet, Alert, FlatList, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from "react";
 import { TaskContext } from "./TaskContext";
 import { DeleteTask } from "../data/tasks";
@@ -16,18 +14,19 @@ import { CurrentTaskContext } from "../context/CurrentTaskContext";
 import { GetTaskDetails } from "../data/tasks";
 
 export default function CurrentTask({ route }) {
-  const { tasks, setTasks } = useContext(TaskContext);
-  const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
-  const navigation = useNavigation();
-  const task_details = GetTaskDetails(currentTaskVar);
-  const task_id = currentTaskVar.package_id;
-  const new_loc = currentTaskVar.destination;
-  const ListItem = ({ item }) => (
-    <View style={list_styles.item}>
-      <Text style={list_styles.text}>{item.label}:</Text>
-      <Text style={list_styles.text}>{item.value}</Text>
-    </View>
-  );
+    const { tasks, setTasks } = useContext(TaskContext);
+    const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
+
+    const navigation = useNavigation();
+    const task_details = GetTaskDetails(currentTaskVar);
+    const task_id = currentTaskVar.package_id;
+    const new_loc = currentTaskVar.destination;
+    const ListItem = ({ item }) => (
+        <View style={list_styles.item}>
+          <Text style={list_styles.text}>{item.label}:</Text>
+          <Text style={list_styles.text}>{item.value}</Text>
+        </View>
+      );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,7 +53,7 @@ export default function CurrentTask({ route }) {
                 text: "Yes",
                 onPress: () => {
                   Alert.alert("Well done!");
-                  DeleteTask(tasks, task_id);
+                  setTasks(DeleteTask(tasks, task_id)); // task is done
                   if (timeForBreak()) {
                     navigation.navigate("StartBreak");
                   } else {

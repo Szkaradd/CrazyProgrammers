@@ -1,6 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Text, Alert } from "react-native";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+/*
+This task contains the implementation of a decision timer -
+the user has 20 seconds to either accept or decline the assigned task.
+*/
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { Text, Alert } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 const Timer = (props) => {
   const navigation = useNavigation();
@@ -8,7 +13,7 @@ const Timer = (props) => {
   const duration = props.duration;
   const [seconds, setSeconds] = useState(duration);
 
-  const resetTimer = useCallback(() => {
+  const resetTimer = useCallback(() => { // resets upon change of task
     setSeconds(duration);
   }, [duration, task_details]);
 
@@ -27,7 +32,7 @@ const Timer = (props) => {
     }, [resetTimer])
   );
 
-  useEffect(() => {
+  useEffect(() => { // after the time has passed, the task is accepted
     if (seconds === 0) {
       Alert.alert("Task accepted automatically");
       navigation.navigate("CurrentTask", { task_details });

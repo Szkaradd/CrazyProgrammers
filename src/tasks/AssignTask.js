@@ -1,5 +1,12 @@
-import { GetDistance } from "../data/tasks";
-import { Gender, WorkPreference } from "../User";
+/*
+This file contains the function assigning the tasks to the workers
+It takes into consideration:
+- Current worker location (simplified, based on the previously delivered package)
+- Employee's gender and preferations (longer distances or heavier packages)
+*/
+
+import { GetDistance } from '../data/tasks';
+import { Gender, WorkPreference } from '../User';
 
 export function AssignTask(tasks, loc, gender, pref) {
   var min_points = 100000;

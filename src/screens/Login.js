@@ -17,7 +17,7 @@ const Login = ({ navigation }) => {
 
     if (isValidUser) {
       setErrorMessage("");
-      const user = { username }; // or any other user information you want to store
+      const user = { username };
       setUser(user);
       await AsyncStorage.setItem("user", JSON.stringify(user));
       navigation.navigate("DrawerNavigator");

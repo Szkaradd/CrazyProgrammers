@@ -1,3 +1,9 @@
+/*
+This file contains the implementation of "New Task" screen
+It shows the employee some information about a proposed task assignment,
+the employee can either decline (at most 3 times a day!) or accept the assignment
+*/
+
 import { Button } from "react-native";
 import {
   View,
@@ -15,20 +21,20 @@ import { AssignTask } from "./AssignTask";
 import React, { useContext } from "react";
 import { TaskContext } from "./TaskContext";
 import { GetTaskDetails } from "../data/tasks";
-import { Location } from "../data/tasks";
 import { timeForBreak } from "../breaks/BreakManager";
 import { useEffect } from "react";
 import { CurrentTaskContext } from "../context/CurrentTaskContext";
-import { user } from "../User";
 import { DeleteTask } from "../data/tasks";
+import { TasksDeclinedContext } from "../context/TasksDeclinedContext";
 
 export default function NewTask({ route }) {
   var { task, curr_loc } = route.params;
   const { tasks, setTasks } = useContext(TaskContext);
   const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
+  const { tasksDeclined, setTasksDeclined } = useContext(TasksDeclinedContext);
   const navigation = useNavigation();
 
-  useEffect(() => {
+  useEffect(() => { // break reminder handling
     if (timeForBreak()) {
       navigation.navigate("StartBreak");
     }
@@ -83,11 +89,18 @@ export default function NewTask({ route }) {
             title="Decline"
             color="white"
             onPress={() => {
-              var new_tasks = DeleteTask(tasks, task_id);
-              setTasks(new_tasks);
-              Alert.alert("Task Declined");
-              var new_task = AssignTask(new_tasks, curr_loc);
-              navigation.navigate("NewTask", { task: new_task, curr_loc });
+              if (tasksDeclined < 3) {
+                setTasksDeclined(tasksDeclined + 1);
+                // declined - don't show this task again
+                var new_tasks = DeleteTask(tasks, task_id);
+                setTasks(new_tasks);
+                Alert.alert("Task Declined");
+                var new_task = AssignTask(new_tasks, curr_loc);
+                navigation.navigate("NewTask", { task: new_task, curr_loc });
+              }
+              else {
+                Alert.alert("You have declined too many tasks today!");
+              }
             }}
           />
         </View>
