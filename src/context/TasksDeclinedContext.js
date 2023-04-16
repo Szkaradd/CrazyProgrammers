@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export const TasksDeclinedContext = React.createContext();
 
-export const TaskDeclinedProvider = ({ children }) => {
+export const TasksDeclinedProvider = ({ children }) => {
   const [tasksDeclined, setTasksDeclined] = useState(0);
 
   return (
