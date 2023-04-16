@@ -1,4 +1,3 @@
-// CurrentTaskWrapper.js
 import React, { useContext, useEffect } from "react";
 import { Alert } from "react-native";
 import { CurrentTaskContext } from "../context/CurrentTaskContext";

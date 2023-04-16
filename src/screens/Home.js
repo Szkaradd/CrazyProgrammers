@@ -26,7 +26,6 @@ const Home = ({ navigation }) => {
       "Montserrat-Regular": require("../../assets/fonts/Montserrat-Regular.ttf"),
     });
 
-    // Preload the image
     const imageAsset = Asset.fromModule(require("../../assets/background.png"));
     await imageAsset.downloadAsync();
 
