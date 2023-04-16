@@ -48,12 +48,14 @@ const BreakPage = () => {
         <Text style={styles.breakText}>It's time for a break!</Text>
       )}
       {timeLeft <= 0 && <Text style={styles.breakText}>End of break!</Text>}
-      {timeLeft <= 0 && <TouchableOpacity
+      {timeLeft <= 0 && (
+        <TouchableOpacity
           style={styles.startBreakButton}
           onPress={handleViewNewTask}
         >
           <Text style={styles.buttonText}>View new task</Text>
-        </TouchableOpacity>}
+        </TouchableOpacity>
+      )}
       {timeLeft >= 0 && (
         <Text style={styles.timeLeft}>{formatTime(timeLeft)}</Text>
       )}
