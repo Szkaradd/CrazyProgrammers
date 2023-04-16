@@ -1,35 +1,8 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import Login from "./src/screens/Login";
-import Home from "./src/screens/Home";
-import AuthContext from "./src/AuthContext";
-import Profile from "./src/screens/Profile";
-import CustomDrawerContent from "./src/components/CustomDrawerContent";
+import { StackNavigator } from "./src/navigation/StackNavigator";
+import { AppContext } from "./src/context/AppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import NewTask from "./src/tasks/NewTask";
-import CurrentTask from "./src/tasks/CurrentTask";
-import { TaskProvider } from "./src/tasks/TaskContext";
-import BreakPage from "./src/breaks/BreakPage";
-
-const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
-
-const DrawerNavigator = () => (
-  <Drawer.Navigator
-    drawerContent={(props) => <CustomDrawerContent {...props} />}
-  >
-    <Drawer.Screen name="Home" component={Home} />
-    <Drawer.Screen name="Profile" component={Profile} />
-    <Drawer.Screen
-      name="NewTask"
-      options={{ title: "New Task" }}
-      component={NewTask}
-      initialParams={{ task_details: null }}
-    />
-  </Drawer.Navigator>
-);
 
 const App = () => {
   const [user, setUser] = React.useState(null);
@@ -57,34 +30,11 @@ const App = () => {
   }
 
   return (
-    <TaskProvider>
-      <AuthContext.Provider value={{ user, setUser }}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ title: "Login" }}
-            />
-            <Stack.Screen
-              name="DrawerNavigator"
-              component={DrawerNavigator}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CurrentTask"
-              component={CurrentTask}
-              options={{ title: "Current Task" }}
-            />
-            <Stack.Screen
-              name="Break"
-              component={BreakPage}
-              options={{ title: "Break" }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </AuthContext.Provider>
-    </TaskProvider>
+    <AppContext>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
+    </AppContext>
   );
 };
 
