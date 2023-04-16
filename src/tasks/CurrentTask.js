@@ -54,7 +54,7 @@ export default function CurrentTask({ route }) {
                 text: "Yes",
                 onPress: () => {
                   Alert.alert("Well done!");
-                  DeleteTask(tasks, task_id); // task is done
+                  setTasks(DeleteTask(tasks, task_id)); // task is done
                   if (timeForBreak()) {
                     navigation.navigate("Break");
                   } else {
