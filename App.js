@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { StackNavigator } from "./src/Navigation";
-import { AppContext } from "./src/Context";
+import { StackNavigator } from "./src/navigation/StackNavigator";
+import { AppContext } from "./src/context/AppContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const App = () => {
+  const [user, setUser] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {

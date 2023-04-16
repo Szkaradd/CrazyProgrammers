@@ -4,7 +4,7 @@ import {
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
-import AuthContext from "../AuthContext";
+import AuthContext from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CustomDrawerContent = (props) => {
