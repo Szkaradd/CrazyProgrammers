@@ -30,7 +30,7 @@ export default function NewTask({ route }) {
 
   useEffect(() => {
     if (timeForBreak()) {
-      navigation.navigate("Break");
+      navigation.navigate("StartBreak");
     }
   }, []);
 

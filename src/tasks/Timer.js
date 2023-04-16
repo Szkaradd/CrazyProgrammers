@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Text, Alert } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from "react";
+import { Text, Alert } from "react-native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 const Timer = (props) => {
   const navigation = useNavigation();
@@ -29,13 +29,13 @@ const Timer = (props) => {
 
   useEffect(() => {
     if (seconds === 0) {
-      Alert.alert('Task accepted automatically');
-      navigation.navigate('CurrentTask', { task_details });
+      Alert.alert("Task accepted automatically");
+      navigation.navigate("CurrentTask", { task_details });
     }
   }, [seconds]);
 
   return (
-    <Text style={{ color: 'white', fontSize: 15 }}>
+    <Text style={{ color: "white", fontSize: 15 }}>
       After {seconds} seconds the task will be accepted
     </Text>
   );
