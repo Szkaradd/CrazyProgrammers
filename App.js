@@ -8,7 +8,9 @@ import AuthContext from "./src/AuthContext";
 import Profile from "./src/screens/Profile";
 import CustomDrawerContent from "./src/components/CustomDrawerContent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TaskProvider } from './src/Tasks/TaskContext';
+import NewTask from "./src/tasks/NewTask";
+import CurrentTask from "./src/tasks/CurrentTask";
+import { TaskProvider } from './src/tasks/TaskContext';
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -19,6 +21,7 @@ const DrawerNavigator = () => (
   >
     <Drawer.Screen name="Home" component={Home} />
     <Drawer.Screen name="Profile" component={Profile} />
+    <Drawer.Screen name="New Task" component={NewTask} />
   </Drawer.Navigator>
 );
 
@@ -49,22 +52,27 @@ const App = () => {
 
   return (
     <TaskProvider>
-    <AuthContext.Provider value={{ user, setUser }}>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ title: "Login" }}
-          />
-          <Stack.Screen
-            name="DrawerNavigator"
-            component={DrawerNavigator}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </AuthContext.Provider>
+      <AuthContext.Provider value={{ user, setUser }}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{ title: "Login" }}
+            />
+            <Stack.Screen
+              name="DrawerNavigator"
+              component={DrawerNavigator}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Current Task"
+              component={CurrentTask}
+              options={{ title: "Current Task" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AuthContext.Provider>
     </TaskProvider>
   );
 };

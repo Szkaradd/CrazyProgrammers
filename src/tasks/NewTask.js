@@ -5,8 +5,8 @@ import Timer from './Timer';
 import { AssignTask } from './AssignTask';
 import React, { useContext } from 'react';
 import { TaskContext } from './TaskContext';
-import { GetTaskDetails } from '../../app/data/tasks';
-import { Location } from '../../app/data/tasks';
+import { GetTaskDetails } from '../data/tasks';
+import { Location } from '../data/tasks';
 
 function GetNewTaskDetails(tasks) {
     var loc = new Location(1, "A");
