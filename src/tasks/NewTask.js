@@ -15,6 +15,7 @@ import { AssignTask } from "./AssignTask";
 import React, { useContext } from "react";
 import { TaskContext } from "./TaskContext";
 import { GetTaskDetails, Location, DeleteTask } from "../data/tasks";
+import { CurrentTaskContext } from "./CurrentTaskContext";
 
 function GetNewTaskDetails(tasks) {
   var loc = new Location(1, "A");
@@ -24,6 +25,7 @@ function GetNewTaskDetails(tasks) {
 
 export default function NewTask({ route }) {
   const { tasks, setTasks } = useContext(TaskContext);
+  const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
   const navigation = useNavigation();
   var { task_details } = route.params;
 
@@ -65,6 +67,7 @@ export default function NewTask({ route }) {
             fontSize="50"
             onPress={() => {
               Alert.alert("Task Accepted");
+              setCurrentTaskVar(task_details);
               navigation.navigate("CurrentTask", { task_details });
             }}
           />
@@ -78,7 +81,7 @@ export default function NewTask({ route }) {
               setTasks(new_tasks);
               Alert.alert("Task Declined");
               new_details = GetNewTaskDetails(new_tasks);
-              navigation.navigate('NewTask', { task_details: new_details });
+              navigation.navigate('NewTask');
             }}
           />
         </View>

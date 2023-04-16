@@ -3,13 +3,13 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useContext } from "react";
 import { TaskContext } from "./TaskContext";
 import { DeleteTask } from "../data/tasks";
+import { CurrentTaskContext } from './CurrentTaskContext';
 
-
-
-export default function CurrentTask({ route }) {
+export default function CurrentTask() {
     const { tasks, setTasks } = useContext(TaskContext);
+    const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
     const navigation = useNavigation();
-    const { task_details } = route.params;
+    const task_details = currentTaskVar;
     const task_id = task_details[4].value;
     const ListItem = ({ item }) => (
         <View style={list_styles.item}>

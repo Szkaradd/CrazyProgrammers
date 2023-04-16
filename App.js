@@ -11,6 +11,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NewTask from "./src/tasks/NewTask";
 import CurrentTask from "./src/tasks/CurrentTask";
 import { TaskProvider } from './src/tasks/TaskContext';
+import { CurrentTaskProvider } from './src/tasks/CurrentTaskContext';
+
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -56,29 +58,31 @@ const App = () => {
   }
 
   return (
-    <TaskProvider>
-      <AuthContext.Provider value={{ user, setUser }}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ title: "Login" }}
-            />
-            <Stack.Screen
-              name="DrawerNavigator"
-              component={DrawerNavigator}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="CurrentTask"
-              component={CurrentTask}
-              options={{ title: "Current Task" }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </AuthContext.Provider>
-    </TaskProvider>
+    <CurrentTaskProvider>
+      <TaskProvider>
+        <AuthContext.Provider value={{ user, setUser }}>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{ title: "Login" }}
+              />
+              <Stack.Screen
+                name="DrawerNavigator"
+                component={DrawerNavigator}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="CurrentTask"
+                component={CurrentTask}
+                options={{ title: "Current Task" }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </AuthContext.Provider>
+      </TaskProvider>
+    </CurrentTaskProvider>
   );
 };
 
