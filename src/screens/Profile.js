@@ -95,7 +95,7 @@ class Profile extends Component {
           </Text>
         </View>
         <View style={{ marginTop: 40 }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+          <Text style={{ fontSize: 20 }}>
             Time to the end of shift:
           </Text>
         </View>
@@ -109,12 +109,12 @@ class Profile extends Component {
               justifyContent: "center",
             }}
           >
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            <Text style={{ fontSize: 18 }}>
               {remainingTimeHoursShift === 1
                 ? "1 hour"
                 : `${remainingTimeHoursShift} hours`}{" "}
             </Text>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            <Text style={{ fontSize: 18 }}>
               {" "}
               {remainingTimeMinutesShift === 1
                 ? "1 minute"
@@ -152,12 +152,12 @@ class Profile extends Component {
           </Svg>
         </View>
         <View style={{ marginTop: 10 }}>
-          <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+          <Text style={{ fontSize: 16 }}>
             Shift Progress: {shiftProgress.toFixed(1)}%
           </Text>
         </View>
         <View style={{ marginTop: 50 }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+          <Text style={{ fontSize: 20 }}>
             Time to the next break:
           </Text>
         </View>
@@ -171,12 +171,12 @@ class Profile extends Component {
               justifyContent: "center",
             }}
           >
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            <Text style={{ fontSize: 18 }}>
               {remainingTimeHoursToBreak === 1
                 ? "1 hour"
                 : `${remainingTimeHoursToBreak} hours`}{" "}
             </Text>
-            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            <Text style={{ fontSize: 18 }}>
               {" "}
               {remainingTimeMinutesToBreak === 1
                 ? "1 minute"
