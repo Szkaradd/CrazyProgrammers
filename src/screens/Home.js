@@ -6,29 +6,44 @@ import {
   StyleSheet,
   SafeAreaView,
   ImageBackground,
+  ActivityIndicator,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import AuthContext from "../context/AuthContext";
+import { CurrentTaskContext } from "../context/CurrentTaskContext";
 import * as Font from "expo-font";
+import { Asset } from "expo-asset";
 
 const Home = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
+  const { currentTaskVar } = useContext(CurrentTaskContext);
   const [fontLoaded, setFontLoaded] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
-  const loadFont = async () => {
+  const loadFontAndImage = async () => {
     await Font.loadAsync({
       "Montserrat-Bold": require("../../assets/fonts/Montserrat-Bold.ttf"),
       "Montserrat-Regular": require("../../assets/fonts/Montserrat-Regular.ttf"),
     });
+
+    // Preload the image
+    const imageAsset = Asset.fromModule(require("../../assets/background.png"));
+    await imageAsset.downloadAsync();
+
     setFontLoaded(true);
+    setImageLoaded(true);
   };
 
   useEffect(() => {
-    loadFont();
+    loadFontAndImage();
   }, []);
 
-  if (!fontLoaded) {
-    return null;
+  if (!fontLoaded || !imageLoaded) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#3f51b5" />
+      </View>
+    );
   }
 
   return (
@@ -42,13 +57,15 @@ const Home = ({ navigation }) => {
             Welcome, {user?.username ?? "guest"}!
           </Text>
           <Text style={styles.subtitle}>Get things done today!</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("NewTask")}
-          >
-            <Icon name="check" size={30} color="white" />
-            <Text style={styles.buttonText}>View new task</Text>
-          </TouchableOpacity>
+          {!currentTaskVar && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate("NewTask")}
+            >
+              <Icon name="check" size={30} color="white" />
+              <Text style={styles.buttonText}>View new task</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -101,6 +118,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     fontFamily: "Montserrat-Regular",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
