@@ -12,7 +12,7 @@ workplaces often feel diminished, not important and without purpose.
 ### About our product
 
 Our product is a mobile application for both IOs and Android. 
-It is designed to improve warehouse worker's well-being and efficiency.
+It is designed to improve warehouse worker's well-being, and thus, efficiency.
 
 Essentially, the app monitors the workers day informing them about incoming assigned tasks
 and cares for the worker's physical and mental health.
