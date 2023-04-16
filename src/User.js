@@ -3,7 +3,7 @@ const Gender = {
   FEMALE: "Female",
 };
 
-const WorkPreference = {
+export const WorkPreference = {
   SMALL_FAR_PACKAGES: "Small far packages",
   BIG_CLOSE_PACKAGES: "Big close packages",
 };
@@ -13,7 +13,7 @@ clockedIn.setHours(4);
 clockedIn.setMinutes(3);
 clockedIn.setSeconds(41);
 
-const user = {
+export const user = {
   id: 1,
   name: "John",
   email: "john@warehouse.com",
@@ -27,5 +27,3 @@ const user = {
   workPreference: WorkPreference.BIG_CLOSE_PACKAGES,
   lastBreakEnd: null,
 };
-
-export default user;
