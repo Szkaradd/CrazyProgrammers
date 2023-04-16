@@ -10,7 +10,7 @@ import CustomDrawerContent from "./src/components/CustomDrawerContent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NewTask from "./src/tasks/NewTask";
 import CurrentTask from "./src/tasks/CurrentTask";
-import { TaskProvider } from './src/tasks/TaskContext';
+import { TaskProvider } from "./src/tasks/TaskContext";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -22,10 +22,12 @@ const DrawerNavigator = () => (
     <Drawer.Screen name="Home" component={Home} />
     <Drawer.Screen name="Profile" component={Profile} />
     <Drawer.Screen
-      name="NewTask"
-      options={{ title: "New Task" }}
-      component={NewTask}
-      initialParams={{ task_details: null }}
+      name="CurrentTask"
+      component={CurrentTask}
+      options={{
+        title: "Current Task",
+        gestureEnabled: false,
+      }}
     />
   </Drawer.Navigator>
 );
@@ -63,17 +65,28 @@ const App = () => {
             <Stack.Screen
               name="Login"
               component={Login}
-              options={{ title: "Login" }}
+              options={{
+                title: "Login",
+                gestureEnabled: false,
+              }}
             />
             <Stack.Screen
               name="DrawerNavigator"
               component={DrawerNavigator}
-              options={{ headerShown: false }}
+              options={{
+                headerShown: false,
+                gestureEnabled: false,
+              }}
             />
             <Stack.Screen
-              name="CurrentTask"
-              component={CurrentTask}
-              options={{ title: "Current Task" }}
+              name="NewTask"
+              component={NewTask}
+              options={{
+                title: "New Task",
+                headerShown: false,
+                gestureEnabled: false,
+              }}
+              initialParams={{ task_details: null }}
             />
           </Stack.Navigator>
         </NavigationContainer>
