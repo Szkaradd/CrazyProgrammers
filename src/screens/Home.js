@@ -5,20 +5,10 @@ import AuthContext from "../AuthContext";
 const Home = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);
 
-  const handleLogout = () => {
-    setUser(null);
-    navigation.navigate("Login");
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Welcome, {user?.username ?? "guest"}!</Text>
-        <Button title="Logout" onPress={handleLogout} />
-        <Button
-          title="Go to my profile"
-          onPress={() => navigation.navigate("Profile")}
-        />
         <Button
           title="View new task"
           onPress={() => navigation.navigate("NewTask", { task_details: null })}

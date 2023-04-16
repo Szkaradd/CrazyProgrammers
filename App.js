@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -7,6 +7,7 @@ import Home from "./src/screens/Home";
 import AuthContext from "./src/AuthContext";
 import Profile from "./src/screens/Profile";
 import CustomDrawerContent from "./src/components/CustomDrawerContent";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -22,6 +23,28 @@ const DrawerNavigator = () => (
 
 const App = () => {
   const [user, setUser] = React.useState(null);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const storedUser = await AsyncStorage.getItem("user");
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+      } catch (error) {
+        console.error("Failed to fetch stored user data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getUserData();
+  }, []);
+
+  if (isLoading) {
+    return null; // Show a loading screen
+  }
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

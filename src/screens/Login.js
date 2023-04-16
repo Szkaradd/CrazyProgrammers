@@ -4,6 +4,7 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import api from "../utils/api";
 import AuthContext from "../AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -18,6 +19,7 @@ const Login = ({ navigation }) => {
       setErrorMessage("");
       const user = { username }; // or any other user information you want to store
       setUser(user);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
       navigation.navigate("DrawerNavigator");
     } else {
       setErrorMessage("Invalid username or password");
