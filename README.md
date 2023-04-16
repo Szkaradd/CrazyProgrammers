@@ -30,7 +30,7 @@ The core functionalities of our app are:
 - A possibility to accept or decline (at most 3 times a day!) the assignment
 - A counter of finished task for every employee
 - Showing user profile, including package preferences, time left to end shift and time left to break
-- Reminding about taking breaks, motivating the workers and encouraging them to exercise or rest during the breaks
+- Reminding about taking breaks (30-minute break every 3 hours), motivating the workers and encouraging them to exercise or rest during the breaks
 - An option for the employee to log in into the system
 
 ## Prerequisites
