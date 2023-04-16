@@ -9,7 +9,7 @@ const WorkPreference = {
 };
 
 const clockedIn = new Date();
-clockedIn.setHours(0);
+clockedIn.setHours(4);
 clockedIn.setMinutes(3);
 clockedIn.setSeconds(41);
 
@@ -25,6 +25,7 @@ const user = {
   clockedOut: null,
   shiftLength: 12,
   workPreference: WorkPreference.BIG_CLOSE_PACKAGES,
+  lastBreakEnd: null,
 };
 
 export default user;

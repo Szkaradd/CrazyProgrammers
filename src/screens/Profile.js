@@ -13,15 +13,27 @@ class Profile extends Component {
     const shiftDuration = user.shiftLength * 60 * 60 * 1000;
     const timeLeft = shiftEnds - now;
     const timeElapsed = shiftDuration - timeLeft;
-    const timeToNextBreak = Math.floor((timeElapsed % 3600000) / 60000); // in minutes
-    const timeToShiftEnd = Math.floor(timeLeft / 60000); // in minutes
+    const timeToShiftEnd = Math.floor(timeLeft / 60000);
     const shiftProgress = (timeElapsed / shiftDuration) * 100;
     const borderDashOffset = ((100 - shiftProgress) / 100) * Math.PI * 160;
+
+    let timeSinceLastBreak = now - user.clockedIn;
+    if (user.lastBreakEnd != null) {
+      timeSinceLastBreak = now - user.lastBreakEnd;
+    }
+    const breakInterval = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
+    const breakLeft = breakInterval - timeSinceLastBreak;
+    const timeToNextBreak = Math.floor(breakLeft / 60000);
+    const breakProgress = (breakLeft / breakInterval) * 100;
+    const borderDashOffsetBreak = (breakProgress / 100) * Math.PI * 160;
+
     this.state = {
       timeToNextBreak,
       timeToShiftEnd,
       shiftProgress,
       borderDashOffset,
+      breakProgress,
+      borderDashOffsetBreak,
     };
   }
 
@@ -33,15 +45,20 @@ class Profile extends Component {
       );
       const shiftDuration = user.shiftLength * 60 * 60 * 1000;
       const timeLeft = shiftEnds - now;
-      const totalBreakTime = user.numBreaks * user.breakLength * 60 * 1000;
-      const timeToNextBreak = Math.floor(
-        ((shiftDuration - timeLeft) % totalBreakTime) / 60000
-      );
+      const timeElapsed = shiftDuration - timeLeft;
       const timeToShiftEnd = Math.floor(timeLeft / 60000);
-      const shiftProgress = ((shiftDuration - timeLeft) / shiftDuration) * 100;
-      const borderDashOffset = ((100 - shiftProgress) / 100) * Math.PI * 80;
-      const breakProgress =
-        ((totalBreakTime - timeToNextBreak * 60 * 1000) / totalBreakTime) * 100;
+      const shiftProgress = (timeElapsed / shiftDuration) * 100;
+      const borderDashOffset = ((100 - shiftProgress) / 100) * Math.PI * 160;
+
+      let timeSinceLastBreak = now - user.clockedIn;
+      if (user.lastBreakEnd != null) {
+        timeSinceLastBreak = now - user.lastBreakEnd;
+      }
+      const breakInterval = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
+      const breakLeft = breakInterval - timeSinceLastBreak;
+      const timeToNextBreak = Math.floor(breakLeft / 60000);
+      const breakProgress = (breakLeft / breakInterval) * 100;
+      const borderDashOffsetBreak = (breakProgress / 100) * Math.PI * 160;
 
       this.setState({
         timeToNextBreak,
@@ -49,6 +66,7 @@ class Profile extends Component {
         shiftProgress,
         borderDashOffset,
         breakProgress,
+        borderDashOffsetBreak,
       });
     }, 60000); // 1 minute
   }
@@ -64,8 +82,9 @@ class Profile extends Component {
       shiftProgress,
       borderDashOffset,
       breakProgress,
+      borderDashOffsetBreak,
     } = this.state;
-    const remainingTimeHoursShift = Math.floor(timeToShiftEnd / 60);
+    const remainingTimeHoursShift = Math.floor(timeToShiftEnd / 60);;
     const remainingTimeMinutesShift = timeToShiftEnd % 60;
     const remainingTimeHoursToBreak = Math.floor(timeToNextBreak / 60);
     const remainingTimeMinutesToBreak = timeToNextBreak % 60;
@@ -95,9 +114,7 @@ class Profile extends Component {
           </Text>
         </View>
         <View style={{ marginTop: 40 }}>
-          <Text style={{ fontSize: 20 }}>
-            Time to the end of shift:
-          </Text>
+          <Text style={{ fontSize: 20 }}>Time to the end of shift:</Text>
         </View>
         <View style={{ marginTop: 10, position: "relative" }}>
           <View
@@ -118,18 +135,10 @@ class Profile extends Component {
               {" "}
               {remainingTimeMinutesShift === 1
                 ? "1 minute"
-                : `${remainingTimeHoursShift} minutes`}{" "}
+                : `${remainingTimeMinutesShift} minutes`}{" "}
             </Text>
           </View>
           <Svg height="200" width="200">
-            <Circle
-              cx="100"
-              cy="100"
-              r="80"
-              strokeWidth="8"
-              stroke="#d9dcdd"
-              fill="transparent"
-            />
             <Circle
               cx="100"
               cy="100"
@@ -157,9 +166,7 @@ class Profile extends Component {
           </Text>
         </View>
         <View style={{ marginTop: 50 }}>
-          <Text style={{ fontSize: 20 }}>
-            Time to the next break:
-          </Text>
+          <Text style={{ fontSize: 20 }}>Time to the next break:</Text>
         </View>
         <View style={{ marginTop: 10, position: "relative" }}>
           <View
@@ -197,16 +204,8 @@ class Profile extends Component {
               cy="100"
               r="80"
               strokeWidth="8"
-              stroke="#d9dcdd"
-              fill="transparent"
-            />
-            <Circle
-              cx="100"
-              cy="100"
-              r="80"
-              strokeWidth="8"
               strokeDasharray="502.4"
-              strokeDashoffset={borderDashOffset}
+              strokeDashoffset={borderDashOffsetBreak}
               strokeLinecap="round"
               stroke={breakProgress === 100 ? "#5cd65c" : "#faac02"}
               fill="transparent"

@@ -10,5 +10,5 @@ export function timeForBreak() {
     ? now - user.lastBreakEnd
     : now - user.clockedIn;
 
-  return (timeSinceLastBreak >= 3 * 60 * 60 * 1000);
+  return timeSinceLastBreak >= 3 * 60 * 60 * 1000;
 }
