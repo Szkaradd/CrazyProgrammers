@@ -1,34 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, SafeAreaView, Image } from "react-native";
 import { setBreakEnd } from "./BreakManager";
 import { useNavigation } from "@react-navigation/native";
 
 const BreakPage = () => {
   const navigation = useNavigation();
-
-  const breakLength = 5; // 30 minutes in seconds
+  const breakLength = 30 * 60; // 30 minutes in seconds
   const [timeLeft, setTimeLeft] = useState(breakLength);
-  const [timerActive, setTimerActive] = useState(false);
-  const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {
-    let interval = null;
-    if (timerActive) {
-      interval = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
-      }, 1000);
-    } else if (!timerActive && timeLeft !== 0) {
-      clearInterval(interval);
-    }
+    const interval = setInterval(() => {
+      setTimeLeft((seconds) => seconds - 1);
+    }, 1000);
     if (timeLeft === 0) {
       setBreakEnd(new Date());
+      navigation.navigate("EndBreak");
     }
-  }, [timerActive, timeLeft]);
-
-  const handleStartBreak = () => {
-    setTimerActive(true);
-    setButtonClicked(true);
-  };
+    return () => clearInterval(interval);
+  }, [timeLeft]);
 
   const formatTime = (timeInSeconds) => {
     const minutes = Math.floor(timeInSeconds / 60);
@@ -38,36 +27,23 @@ const BreakPage = () => {
       .padStart(2, "0")}`;
   };
 
-  const handleViewNewTask = () => {
-    navigation.navigate("NewTask", { task_details: null });
-  };
-
   return (
-    <View style={styles.container}>
-      {timeLeft > 0 && (
-        <Text style={styles.breakText}>It's time for a break!</Text>
-      )}
-      {timeLeft <= 0 && <Text style={styles.breakText}>End of break!</Text>}
-      {timeLeft <= 0 && (
-        <TouchableOpacity
-          style={styles.startBreakButton}
-          onPress={handleViewNewTask}
-        >
-          <Text style={styles.buttonText}>View new task</Text>
-        </TouchableOpacity>
-      )}
-      {timeLeft >= 0 && (
-        <Text style={styles.timeLeft}>{formatTime(timeLeft)}</Text>
-      )}
-      {!buttonClicked && (
-        <TouchableOpacity
-          style={styles.startBreakButton}
-          onPress={handleStartBreak}
-        >
-          <Text style={styles.buttonText}>Start your break</Text>
-        </TouchableOpacity>
-      )}
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.breakText}>It's time for a break!</Text>
+      <Text style={styles.timeLeft}>{formatTime(timeLeft)}</Text>
+      <Text style={styles.encouragement}>
+        We encourage you to do some stretching exercises:
+      </Text>
+      <Image
+        source={require("../../assets/stretch-workout.jpg")}
+        style={{
+          width: 460,
+          height: 460,
+          resizeMode: "contain",
+          marginTop: 20,
+        }}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -80,19 +56,21 @@ const styles = StyleSheet.create({
   breakText: {
     fontSize: 30,
     marginBottom: 20,
+    fontWeight: "bold",
   },
   timeLeft: {
     fontSize: 50,
   },
-  startBreakButton: {
-    marginTop: 20,
-    backgroundColor: "#007AFF",
-    padding: 10,
-    borderRadius: 5,
-  },
   buttonText: {
     fontSize: 24,
     color: "#FFFFFF",
+  },
+  encouragement: {
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 20,
+    paddingLeft: 25,
+    paddingRight: 25,
   },
 });
 

@@ -27,4 +27,3 @@ export const user = {
   workPreference: WorkPreference.BIG_CLOSE_PACKAGES,
   lastBreakEnd: null,
 };
-
