@@ -1,11 +1,17 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { View, Text } from "react-native";
-import user from "../User.js";
+import { user, WorkPreference } from "../User.js";
 import { Svg, Circle } from "react-native-svg";
+import SelectDropdown from "react-native-select-dropdown";
 
 class Profile extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      workPreference: user.workPreference,
+    };
+
     const now = new Date();
     const shiftEnds = new Date(
       user.clockedIn.getTime() + user.shiftLength * 60 * 60 * 1000
@@ -37,8 +43,17 @@ class Profile extends Component {
     };
   }
 
+  handleWorkPreferenceChange = (value) => {
+    this.setState({ workPreference: value });
+    user.workPreference = value;
+  };
+
   componentDidMount() {
     this.interval = setInterval(() => {
+      this.state = {
+        workPreference: user.workPreference,
+      };
+
       const now = new Date();
       const shiftEnds = new Date(
         user.clockedIn.getTime() + user.shiftLength * 60 * 60 * 1000
@@ -84,10 +99,16 @@ class Profile extends Component {
       breakProgress,
       borderDashOffsetBreak,
     } = this.state;
-    const remainingTimeHoursShift = Math.floor(timeToShiftEnd / 60);;
+    const remainingTimeHoursShift = Math.floor(timeToShiftEnd / 60);
     const remainingTimeMinutesShift = timeToShiftEnd % 60;
     const remainingTimeHoursToBreak = Math.floor(timeToNextBreak / 60);
     const remainingTimeMinutesToBreak = timeToNextBreak % 60;
+
+    const { workPreference } = this.state;
+    const options = [
+      WorkPreference.SMALL_FAR_PACKAGES,
+      WorkPreference.BIG_CLOSE_PACKAGES,
+    ];
 
     if (user.clockedOut != null) {
       return (
@@ -107,112 +128,130 @@ class Profile extends Component {
     }
 
     return (
-      <View style={{ alignItems: "center" }}>
-        <View style={{ marginTop: 30 }}>
-          <Text style={{ fontSize: 28, fontWeight: "bold" }}>
-            Hello, {user.name}
-          </Text>
-        </View>
-        <View style={{ marginTop: 40 }}>
-          <Text style={{ fontSize: 20 }}>Time to the end of shift:</Text>
-        </View>
-        <View style={{ marginTop: 10, position: "relative" }}>
-          <View
-            style={{
-              position: "absolute",
-              top: 75,
-              left: 50,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ fontSize: 18 }}>
-              {remainingTimeHoursShift === 1
-                ? "1 hour"
-                : `${remainingTimeHoursShift} hours`}{" "}
-            </Text>
-            <Text style={{ fontSize: 18 }}>
-              {" "}
-              {remainingTimeMinutesShift === 1
-                ? "1 minute"
-                : `${remainingTimeMinutesShift} minutes`}{" "}
+      <>
+        <View style={{ alignItems: "center" }}>
+          <View style={{ marginTop: 20 }}>
+            <Text style={{ fontSize: 26, fontWeight: "bold" }}>
+              Hello, {user.name}
             </Text>
           </View>
-          <Svg height="200" width="200">
-            <Circle
-              cx="100"
-              cy="100"
-              r="80"
-              strokeWidth="8"
-              stroke="#d9dcdd"
-              fill="transparent"
-            />
-            <Circle
-              cx="100"
-              cy="100"
-              r="80"
-              strokeWidth="8"
-              strokeDasharray="502.4"
-              strokeDashoffset={borderDashOffset}
-              strokeLinecap="round"
-              stroke={shiftProgress === 100 ? "#5cd65c" : "#faac02"}
-              fill="transparent"
-            />
-          </Svg>
-        </View>
-        <View style={{ marginTop: 10 }}>
-          <Text style={{ fontSize: 16 }}>
-            Shift Progress: {shiftProgress.toFixed(1)}%
-          </Text>
-        </View>
-        <View style={{ marginTop: 50 }}>
-          <Text style={{ fontSize: 20 }}>Time to the next break:</Text>
-        </View>
-        <View style={{ marginTop: 10, position: "relative" }}>
-          <View
-            style={{
-              position: "absolute",
-              top: 75,
-              left: 50,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={{ fontSize: 18 }}>
-              {remainingTimeHoursToBreak === 1
-                ? "1 hour"
-                : `${remainingTimeHoursToBreak} hours`}{" "}
-            </Text>
-            <Text style={{ fontSize: 18 }}>
-              {" "}
-              {remainingTimeMinutesToBreak === 1
-                ? "1 minute"
-                : `${remainingTimeMinutesToBreak} minutes`}{" "}
+          <View style={{ marginTop: 20 }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+              Time to the end of shift:
             </Text>
           </View>
-          <Svg height="200" width="200">
-            <Circle
-              cx="100"
-              cy="100"
-              r="80"
-              strokeWidth="8"
-              stroke="#d9dcdd"
-              fill="transparent"
-            />
-            <Circle
-              cx="100"
-              cy="100"
-              r="80"
-              strokeWidth="8"
-              strokeDasharray="502.4"
-              strokeDashoffset={borderDashOffsetBreak}
-              strokeLinecap="round"
-              stroke={breakProgress === 100 ? "#5cd65c" : "#faac02"}
-              fill="transparent"
-            />
-          </Svg>
+          <View style={{ marginTop: 10, position: "relative" }}>
+            <View
+              style={{
+                position: "absolute",
+                top: 75,
+                left: 50,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ fontSize: 16 }}>
+                {remainingTimeHoursShift === 1
+                  ? "1 hour"
+                  : `${remainingTimeHoursShift} hours`}{" "}
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                {" "}
+                {remainingTimeMinutesShift === 1
+                  ? "1 minute"
+                  : `${remainingTimeMinutesShift} minutes`}{" "}
+              </Text>
+            </View>
+            <Svg height="200" width="200">
+              <Circle
+                cx="100"
+                cy="100"
+                r="80"
+                strokeWidth="8"
+                stroke="#d9dcdd"
+                fill="transparent"
+              />
+              <Circle
+                cx="100"
+                cy="100"
+                r="80"
+                strokeWidth="8"
+                strokeDasharray="502.4"
+                strokeDashoffset={borderDashOffset}
+                strokeLinecap="round"
+                stroke={shiftProgress === 100 ? "#5cd65c" : "#faac02"}
+                fill="transparent"
+              />
+            </Svg>
+          </View>
+          <View style={{ marginTop: 10 }}>
+            <Text style={{ fontSize: 16 }}>
+              Shift Progress: {shiftProgress.toFixed(1)}%
+            </Text>
+          </View>
+          <View style={{ marginTop: 20 }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+              Time to the next break:
+            </Text>
+          </View>
+          <View style={{ marginTop: 10, position: "relative" }}>
+            <View
+              style={{
+                position: "absolute",
+                top: 75,
+                left: 50,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ fontSize: 16 }}>
+                {remainingTimeHoursToBreak === 1
+                  ? "1 hour"
+                  : `${remainingTimeHoursToBreak} hours`}{" "}
+              </Text>
+              <Text style={{ fontSize: 16 }}>
+                {" "}
+                {remainingTimeMinutesToBreak === 1
+                  ? "1 minute"
+                  : `${remainingTimeMinutesToBreak} minutes`}{" "}
+              </Text>
+            </View>
+            <Svg height="200" width="200">
+              <Circle
+                cx="100"
+                cy="100"
+                r="80"
+                strokeWidth="8"
+                stroke="#d9dcdd"
+                fill="transparent"
+              />
+              <Circle
+                cx="100"
+                cy="100"
+                r="80"
+                strokeWidth="8"
+                strokeDasharray="502.4"
+                strokeDashoffset={borderDashOffsetBreak}
+                strokeLinecap="round"
+                stroke={breakProgress === 100 ? "#5cd65c" : "#faac02"}
+                fill="transparent"
+              />
+            </Svg>
+          </View>
         </View>
-      </View>
+        <View style={{ alignItems: "center", marginBottom: 20, marginTop: 10 }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+            Work preference:
+          </Text>
+          <SelectDropdown
+            data={options}
+            defaultValue={user.workPreference}
+            onSelect={this.handleWorkPreferenceChange}
+            buttonStyle={{ marginTop: 8, marginBottom: 10 }}
+            dropdownStyle={{ marginTop: -10 }}
+          />
+        </View>
+      </>
     );
   }
 }

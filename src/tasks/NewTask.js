@@ -18,16 +18,19 @@ import { GetTaskDetails } from "../data/tasks";
 import { Location } from "../data/tasks";
 import { timeForBreak } from "../breaks/BreakManager";
 import { useEffect } from "react";
+import { CurrentTaskContext } from "../context/CurrentTaskContext";
+import { user } from "../User";
 import { DeleteTask } from "../data/tasks";
 
 function GetNewTaskDetails(tasks) {
   var loc = new Location(1, "A");
-  var new_task = AssignTask(tasks, loc, "M", "FAR");
+  var new_task = AssignTask(tasks, loc, user.gender, user.workPreference);
   return GetTaskDetails(new_task);
 }
 
 export default function NewTask({ route }) {
   const { tasks, setTasks } = useContext(TaskContext);
+  const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -76,6 +79,7 @@ export default function NewTask({ route }) {
             fontSize="50"
             onPress={() => {
               Alert.alert("Task Accepted");
+              setCurrentTaskVar(task_details);
               navigation.navigate("CurrentTask", { task_details });
             }}
           />
@@ -89,7 +93,7 @@ export default function NewTask({ route }) {
               setTasks(new_tasks);
               Alert.alert("Task Declined");
               new_details = GetNewTaskDetails(new_tasks);
-              navigation.navigate("NewTask", { task_details: new_details });
+              navigation.navigate("NewTask");
             }}
           />
         </View>
@@ -119,9 +123,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     flex: 1,
-    //alignItems: 'center',
-    //justifyContent: 'center',
-    //paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   title_container: {
     backgroundColor: "green",
