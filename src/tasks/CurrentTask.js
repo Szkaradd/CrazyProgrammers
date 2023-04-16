@@ -61,7 +61,7 @@ export default function CurrentTask({ route }) {
                 Alert.alert("Well done!");
                 setTasks(DeleteTask(tasks, task_id)); // task is done
                 if (timeForBreak()) {
-                  navigation.navigate("Break");
+                  navigation.navigate("StartBreak");
                 } else {
                   navigation.navigate("NewTask", {
                     task: null,

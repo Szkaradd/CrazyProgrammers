@@ -3,7 +3,7 @@ This file contains a global task context -
 a list of possible tasks visible to all components
 */
 
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { GetTasks } from '../data/tasks';
 
 export const TaskContext = React.createContext();

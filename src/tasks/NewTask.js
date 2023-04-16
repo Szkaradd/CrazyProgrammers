@@ -36,7 +36,7 @@ export default function NewTask({ route }) {
   useEffect(() => {
     // break reminder handling
     if (timeForBreak()) {
-      navigation.navigate("Break");
+      navigation.navigate("StartBreak");
     }
   }, []);
 

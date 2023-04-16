@@ -34,13 +34,13 @@ const Timer = (props) => {
 
   useEffect(() => { // after the time has passed, the task is accepted
     if (seconds === 0) {
-      Alert.alert('Task accepted automatically');
-      navigation.navigate('CurrentTask', { task_details });
+      Alert.alert("Task accepted automatically");
+      navigation.navigate("CurrentTask", { task_details });
     }
   }, [seconds]);
 
   return (
-    <Text style={{ color: 'white', fontSize: 15 }}>
+    <Text style={{ color: "white", fontSize: 15 }}>
       After {seconds} seconds the task will be accepted
     </Text>
   );

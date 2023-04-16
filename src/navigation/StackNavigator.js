@@ -2,7 +2,9 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { DrawerNavigator } from "./DrawerNavigator";
 import Login from "../screens/Login";
+import StartBreak from "../breaks/StartBreak";
 import BreakPage from "../breaks/BreakPage";
+import EndBreak from "../breaks/EndBreak";
 import NewTask from "../tasks/NewTask";
 import { Location } from "../data/tasks";
 
@@ -30,9 +32,31 @@ export const StackNavigator = () => (
       initialParams={{ task_details: null, curr_loc: new Location(1, "A") }}
     />
     <Stack.Screen
-      name="Break"
+      name="StartBreak"
+      component={StartBreak}
+      options={{
+        title: "Break",
+        headerShown: false,
+        gestureEnabled: false,
+      }}
+    />
+    <Stack.Screen
+      name="BreakPage"
       component={BreakPage}
-      options={{ title: "Break" }}
+      options={{
+        title: "Break",
+        headerShown: false,
+        gestureEnabled: false,
+      }}
+    />
+    <Stack.Screen
+      name="EndBreak"
+      component={EndBreak}
+      options={{
+        title: "Break",
+        headerShown: false,
+        gestureEnabled: false,
+      }}
     />
   </Stack.Navigator>
 );

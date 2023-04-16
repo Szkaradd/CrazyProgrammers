@@ -1,4 +1,4 @@
-import {user} from "../User";
+import { user } from "../User";
 
 export function setBreakEnd(breakEnd) {
   user.lastBreakEnd = breakEnd;
