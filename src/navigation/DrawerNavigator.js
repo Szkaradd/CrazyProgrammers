@@ -3,7 +3,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Home from "../screens/Home";
 import Profile from "../screens/Profile";
 import CustomDrawerContent from "../components/CustomDrawerContent";
-import NewTask from "../tasks/NewTask";
+import CurrentTask from "../tasks/CurrentTask";
 
 const Drawer = createDrawerNavigator();
 
@@ -14,10 +14,11 @@ export const DrawerNavigator = () => (
     <Drawer.Screen name="Home" component={Home} />
     <Drawer.Screen name="Profile" component={Profile} />
     <Drawer.Screen
-      name="NewTask"
-      options={{ title: "New Task" }}
-      component={NewTask}
-      initialParams={{ task_details: null }}
+      name="CurrentTask"
+      component={CurrentTask}
+      options={{
+        title: "Current Task",
+      }}
     />
   </Drawer.Navigator>
 );

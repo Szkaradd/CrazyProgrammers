@@ -6,14 +6,24 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "assetBundlePatterns": ["**/*"],
+    "fonts": [
+      {
+        "asset": "assets/fonts/Montserrat-Bold.ttf",
+        "fontWeight": "bold",
+        "fontStyle": "normal"
+      },
+      {
+        "asset": "assets/fonts/Montserrat-Regular.ttf",
+        "fontWeight": "normal",
+        "fontStyle": "normal"
+      }
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": true
     },

@@ -1,24 +1,26 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  Alert,
-  FlatList,
-  Button,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { View, Text, SafeAreaView, StyleSheet, Alert, FlatList, Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import React, { useContext } from "react";
+import { TaskContext } from "./TaskContext";
+import { DeleteTask } from "../data/tasks";
 import { timeForBreak } from "../breaks/BreakManager";
+import { CurrentTaskContext } from '../context/CurrentTaskContext';
+import { GetTaskDetails } from '../data/tasks';
+
 
 export default function CurrentTask({ route }) {
-  const navigation = useNavigation();
-  const { task_details } = route.params;
-  const ListItem = ({ item }) => (
-    <View style={list_styles.item}>
-      <Text style={list_styles.text}>{item.label}:</Text>
-      <Text style={list_styles.text}>{item.value}</Text>
-    </View>
-  );
+    const { tasks, setTasks } = useContext(TaskContext);
+    const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
+    const navigation = useNavigation();
+    const task_details = GetTaskDetails(currentTaskVar);
+    const task_id = currentTaskVar.package_id;
+    const new_loc = currentTaskVar.destination;
+    const ListItem = ({ item }) => (
+        <View style={list_styles.item}>
+          <Text style={list_styles.text}>{item.label}:</Text>
+          <Text style={list_styles.text}>{item.value}</Text>
+        </View>
+      );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,10 +47,11 @@ export default function CurrentTask({ route }) {
                 text: "Yes",
                 onPress: () => {
                   Alert.alert("Well done!");
+                  DeleteTask(tasks, task_id);
                   if (timeForBreak()) {
                     navigation.navigate("Break");
                   } else {
-                    navigation.navigate("NewTask", { task_details: null });
+                    navigation.navigate("NewTask", { task: null, curr_loc: new_loc });
                   }
                 },
               },
