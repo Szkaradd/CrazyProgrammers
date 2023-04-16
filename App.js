@@ -10,7 +10,8 @@ import CustomDrawerContent from "./src/components/CustomDrawerContent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NewTask from "./src/tasks/NewTask";
 import CurrentTask from "./src/tasks/CurrentTask";
-import { TaskProvider } from './src/tasks/TaskContext';
+import { TaskProvider } from "./src/tasks/TaskContext";
+import BreakPage from "./src/breaks/BreakPage";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -74,6 +75,11 @@ const App = () => {
               name="CurrentTask"
               component={CurrentTask}
               options={{ title: "Current Task" }}
+            />
+            <Stack.Screen
+              name="Break"
+              component={BreakPage}
+              options={{ title: "Break" }}
             />
           </Stack.Navigator>
         </NavigationContainer>

@@ -40,6 +40,7 @@ export default function NewTask({ route }) {
   if (task_details == null) {
     task_details = GetNewTaskDetails(tasks);
   }
+  const task_id = task_details[4].value;
 
   const ListItem = ({ item }) => (
     <View style={list_styles.item}>
@@ -75,7 +76,7 @@ export default function NewTask({ route }) {
             fontSize="50"
             onPress={() => {
               Alert.alert("Task Accepted");
-              navigation.navigate("Current Task", { task_details });
+              navigation.navigate("CurrentTask", { task_details });
             }}
           />
         </View>
@@ -84,9 +85,11 @@ export default function NewTask({ route }) {
             title="Decline"
             color="white"
             onPress={() => {
+              var new_tasks = DeleteTask(tasks, task_id);
+              setTasks(new_tasks);
               Alert.alert("Task Declined");
-              new_details = GetNewTaskDetails(tasks);
-              navigation.navigate("NewTask", { task_details: new_details });
+              new_details = GetNewTaskDetails(new_tasks);
+              navigation.navigate('NewTask', { task_details: new_details });
             }}
           />
         </View>
