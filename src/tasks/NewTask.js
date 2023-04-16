@@ -18,6 +18,7 @@ import { GetTaskDetails } from "../data/tasks";
 import { Location } from "../data/tasks";
 import { timeForBreak } from "../breaks/BreakManager";
 import { useEffect } from "react";
+import { DeleteTask } from "../data/tasks";
 
 function GetNewTaskDetails(tasks) {
   var loc = new Location(1, "A");
@@ -48,7 +49,6 @@ export default function NewTask({ route }) {
       <Text style={list_styles.text}>{item.value}</Text>
     </View>
   );
-  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -89,7 +89,7 @@ export default function NewTask({ route }) {
               setTasks(new_tasks);
               Alert.alert("Task Declined");
               new_details = GetNewTaskDetails(new_tasks);
-              navigation.navigate('NewTask', { task_details: new_details });
+              navigation.navigate("NewTask", { task_details: new_details });
             }}
           />
         </View>
