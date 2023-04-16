@@ -48,7 +48,7 @@ export default function CurrentTask({ route }) {
                   if (timeForBreak()) {
                     navigation.navigate("Break");
                   } else {
-                    navigation.navigate("New Task", { task_details: null });
+                    navigation.navigate("NewTask", { task_details: null });
                   }
                 },
               },
