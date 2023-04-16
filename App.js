@@ -21,7 +21,12 @@ const DrawerNavigator = () => (
   >
     <Drawer.Screen name="Home" component={Home} />
     <Drawer.Screen name="Profile" component={Profile} />
-    <Drawer.Screen name="New Task" component={NewTask} />
+    <Drawer.Screen
+      name="NewTask"
+      options={{ title: "New Task" }}
+      component={NewTask}
+      initialParams={{ task_details: null }}
+    />
   </Drawer.Navigator>
 );
 
@@ -66,7 +71,7 @@ const App = () => {
               options={{ headerShown: false }}
             />
             <Stack.Screen
-              name="Current Task"
+              name="CurrentTask"
               component={CurrentTask}
               options={{ title: "Current Task" }}
             />
