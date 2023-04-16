@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const BreakPage = () => {
   const navigation = useNavigation();
-  const breakLength = 30 * 60; // 30 minutes in seconds
+  const breakLength = 10; // 30 minutes in seconds
   const [timeLeft, setTimeLeft] = useState(breakLength);
 
   useEffect(() => {
