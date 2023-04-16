@@ -16,7 +16,11 @@ and cares for the worker's physical and mental health.
 
 ### Benefits for the warehouse owner
 
-Our solution
+Our solution is profitable for the warehouse owner because automated task
+assignment saves time, and thanks to the optimization of the distances, it makes the employee's
+work more efficient. 
+Furthermore, the workers are feeling more important and taken care of, which makes
+them less likely to quit their jobs and even more increases their efficiency.
 
 ### Core functionalities
 
