@@ -1,3 +1,9 @@
+/*
+This file contains the implementation of "New Task" screen
+It shows the employee some information about a proposed task assignment,
+the employee can either decline (at most 3 times a day!) or accept the assignment
+*/
+
 import { Button } from "react-native";
 import {
   View,
@@ -26,7 +32,7 @@ export default function NewTask({ route }) {
   const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
   const navigation = useNavigation();
 
-  useEffect(() => {
+  useEffect(() => { // break reminder handling
     if (timeForBreak()) {
       navigation.navigate("Break");
     }
@@ -81,6 +87,7 @@ export default function NewTask({ route }) {
             title="Decline"
             color="white"
             onPress={() => {
+              // declined - don't show this task again
               var new_tasks = DeleteTask(tasks, task_id);
               setTasks(new_tasks);
               Alert.alert("Task Declined");
