@@ -1,4 +1,4 @@
-import { GetDistance } from '../data/tasks';
+import { GetDistance } from '../../app/data/tasks';
 
 export function AssignTask(tasks, loc, gender, pref) {
     var min_points = 100000;
