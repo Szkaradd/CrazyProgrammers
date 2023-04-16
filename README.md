@@ -5,7 +5,7 @@
 ### Problems about working in a warehouse
 
 Work in a warehouse is a very physically demanding job. Furthermore, the employees in such 
-workplaces often feel diminished, not important and without purpose. 
+workplaces often feel diminished, not important, disposable and without purpose. 
 
 
 
