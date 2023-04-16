@@ -14,12 +14,17 @@ import Timer from "./Timer";
 import { AssignTask } from "./AssignTask";
 import React, { useContext } from "react";
 import { TaskContext } from "./TaskContext";
-import { GetTaskDetails, Location, DeleteTask } from "../data/tasks";
-import { CurrentTaskContext } from "./CurrentTaskContext";
+import { GetTaskDetails } from "../data/tasks";
+import { Location } from "../data/tasks";
+import { timeForBreak } from "../breaks/BreakManager";
+import { useEffect } from "react";
+import { CurrentTaskContext } from "../context/CurrentTaskContext";
+import { user } from "../User";
+import { DeleteTask } from "../data/tasks";
 
 function GetNewTaskDetails(tasks) {
   var loc = new Location(1, "A");
-  var new_task = AssignTask(tasks, loc, "M", "FAR");
+  var new_task = AssignTask(tasks, loc, user.gender, user.workPreference);
   return GetTaskDetails(new_task);
 }
 
@@ -27,6 +32,13 @@ export default function NewTask({ route }) {
   const { tasks, setTasks } = useContext(TaskContext);
   const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    if (timeForBreak()) {
+      navigation.navigate("Break");
+    }
+  }, []);
+
   var { task_details } = route.params;
 
   if (task_details == null) {
@@ -40,6 +52,7 @@ export default function NewTask({ route }) {
       <Text style={list_styles.text}>{item.value}</Text>
     </View>
   );
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -111,9 +124,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     flex: 1,
-    //alignItems: 'center',
-    //justifyContent: 'center',
-    //paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
   title_container: {
     backgroundColor: "green",

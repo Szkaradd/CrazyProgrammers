@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import api from "../utils/api";
-import AuthContext from "../AuthContext";
+import AuthContext from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Login = ({ navigation }) => {

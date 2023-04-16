@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View, Text, Button, StyleSheet, SafeAreaView } from "react-native";
-import AuthContext from "../AuthContext";
+import AuthContext from "../context/AuthContext";
 
 const Home = ({ navigation }) => {
   const { user, setUser } = useContext(AuthContext);

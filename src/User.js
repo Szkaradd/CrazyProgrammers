@@ -1,9 +1,9 @@
-const Gender = {
+export const Gender = {
   MALE: "Male",
   FEMALE: "Female",
 };
 
-const WorkPreference = {
+export const WorkPreference = {
   SMALL_FAR_PACKAGES: "Small far packages",
   BIG_CLOSE_PACKAGES: "Big close packages",
 };
@@ -13,7 +13,7 @@ clockedIn.setHours(0);
 clockedIn.setMinutes(3);
 clockedIn.setSeconds(41);
 
-const user = {
+export const user = {
   id: 1,
   name: "John",
   email: "john@warehouse.com",

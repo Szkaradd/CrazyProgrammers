@@ -16,6 +16,10 @@ class Task {
     }
 }
 
+export function DeleteTask(tasks, id) {
+  return tasks.filter((task) => task.package_id !== id);
+}
+
 export function GetTaskDetails(task) {
     var loc_str = "Block " + task.location.block_number.toString() + task.location.sector;
     var dest_str = "Block " + task.destination.block_number.toString() + task.destination.sector;
@@ -33,11 +37,6 @@ export function GetDistance(locA, locB) {
     var block_distance = Math.abs(locA.block_number - locB.block_number);
     var sector_distance = Math.abs(locA.sector.localeCompare(locB.sector));
     return block_distance * 100 + sector_distance * 10;
-}
-
-export function DeleteTask(tasks, id) {
-    var new_tasks = tasks.filter(task => task.package_id !== id);
-    return new_tasks;
 }
 
 // get task with random weight(1,30), random location, random destination
