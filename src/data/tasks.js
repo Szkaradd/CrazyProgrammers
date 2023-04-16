@@ -35,6 +35,11 @@ export function GetDistance(locA, locB) {
     return block_distance * 100 + sector_distance * 10;
 }
 
+export function DeleteTask(tasks, id) {
+    var new_tasks = tasks.filter(task => task.package_id !== id);
+    return new_tasks;
+}
+
 // get task with random weight(1,30), random location, random destination
 function RandomTask(id) {
     var weight = Math.floor(Math.random() * 30) + 1;

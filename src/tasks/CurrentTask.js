@@ -1,10 +1,16 @@
 import { View, Text, SafeAreaView, StyleSheet, Alert, FlatList, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import React, { useContext } from "react";
+import { TaskContext } from "./TaskContext";
+import { DeleteTask } from "../data/tasks";
+
 
 
 export default function CurrentTask({ route }) {
+    const { tasks, setTasks } = useContext(TaskContext);
     const navigation = useNavigation();
     const { task_details } = route.params;
+    const task_id = task_details[4].value;
     const ListItem = ({ item }) => (
         <View style={list_styles.item}>
           <Text style={list_styles.text}>{item.label}:</Text>
@@ -33,7 +39,8 @@ export default function CurrentTask({ route }) {
                 color="white"
                 onPress={() => Alert.alert("Are you sure?", "I have finished this task", [
                     {text: "Yes", onPress: () => {
-                        Alert.alert("Well done!")
+                        setTasks(DeleteTask(tasks, task_id));
+                        Alert.alert("Well done!");
                         navigation.navigate('NewTask', {task_details: null});
                     }},
                     {text: "No", onPress: () => Alert.alert("Keep working. Good luck!")}
