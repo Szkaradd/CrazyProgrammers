@@ -11,7 +11,7 @@ const Home = ({ navigation }) => {
         <Text style={styles.title}>Welcome, {user?.username ?? "guest"}!</Text>
         <Button
           title="View new task"
-          onPress={() => navigation.navigate("New Task", { task_details: null })}
+          onPress={() => navigation.navigate("NewTask")}
         />
       </View>
     </SafeAreaView>
