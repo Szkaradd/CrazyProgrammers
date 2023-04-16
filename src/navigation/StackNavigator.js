@@ -4,6 +4,7 @@ import { DrawerNavigator } from "./DrawerNavigator";
 import Login from "../screens/Login";
 import BreakPage from "../breaks/BreakPage";
 import NewTask from "../tasks/NewTask";
+import { Location } from "../data/tasks";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,7 +27,7 @@ export const StackNavigator = () => (
         headerShown: false,
         gestureEnabled: false,
       }}
-      initialParams={{ task_details: null }}
+      initialParams={{ task_details: null, curr_loc: new Location(1, "A") }}
     />
     <Stack.Screen
       name="Break"

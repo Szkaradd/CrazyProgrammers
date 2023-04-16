@@ -5,14 +5,16 @@ import { TaskContext } from "./TaskContext";
 import { DeleteTask } from "../data/tasks";
 import { timeForBreak } from "../breaks/BreakManager";
 import { CurrentTaskContext } from '../context/CurrentTaskContext';
+import { GetTaskDetails } from '../data/tasks';
 
 
 export default function CurrentTask({ route }) {
     const { tasks, setTasks } = useContext(TaskContext);
     const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
     const navigation = useNavigation();
-    const task_details = currentTaskVar;
-    const task_id = task_details[4].value;
+    const task_details = GetTaskDetails(currentTaskVar);
+    const task_id = currentTaskVar.package_id;
+    const new_loc = currentTaskVar.destination;
     const ListItem = ({ item }) => (
         <View style={list_styles.item}>
           <Text style={list_styles.text}>{item.label}:</Text>
@@ -49,7 +51,7 @@ export default function CurrentTask({ route }) {
                   if (timeForBreak()) {
                     navigation.navigate("Break");
                   } else {
-                    navigation.navigate("NewTask", { task_details: null });
+                    navigation.navigate("NewTask", { task: null, curr_loc: new_loc });
                   }
                 },
               },

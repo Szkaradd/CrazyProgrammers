@@ -22,13 +22,8 @@ import { CurrentTaskContext } from "../context/CurrentTaskContext";
 import { user } from "../User";
 import { DeleteTask } from "../data/tasks";
 
-function GetNewTaskDetails(tasks) {
-  var loc = new Location(1, "A");
-  var new_task = AssignTask(tasks, loc, user.gender, user.workPreference);
-  return GetTaskDetails(new_task);
-}
-
 export default function NewTask({ route }) {
+  var { task, curr_loc } = route.params;
   const { tasks, setTasks } = useContext(TaskContext);
   const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
   const navigation = useNavigation();
@@ -39,12 +34,11 @@ export default function NewTask({ route }) {
     }
   }, []);
 
-  var { task_details } = route.params;
-
-  if (task_details == null) {
-    task_details = GetNewTaskDetails(tasks);
+  if (task == null) {
+    task = AssignTask(tasks, curr_loc);
   }
-  const task_id = task_details[4].value;
+  const task_id = task.package_id;
+  var task_details = GetTaskDetails(task);
 
   const ListItem = ({ item }) => (
     <View style={list_styles.item}>
@@ -79,8 +73,8 @@ export default function NewTask({ route }) {
             fontSize="50"
             onPress={() => {
               Alert.alert("Task Accepted");
-              setCurrentTaskVar(task_details);
-              navigation.navigate("CurrentTask", { task_details });
+              setCurrentTaskVar(task);
+              navigation.navigate("CurrentTask");
             }}
           />
         </View>
@@ -92,8 +86,8 @@ export default function NewTask({ route }) {
               var new_tasks = DeleteTask(tasks, task_id);
               setTasks(new_tasks);
               Alert.alert("Task Declined");
-              new_details = GetNewTaskDetails(new_tasks);
-              navigation.navigate("NewTask");
+              var new_task = AssignTask(new_tasks, curr_loc);
+              navigation.navigate("NewTask", { task: new_task, curr_loc });
             }}
           />
         </View>
@@ -144,8 +138,6 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     flex: 1,
     flexDirection: "row",
-    //alignItems: 'center',
-    //justifyContent: 'center',
   },
   accept_style: {
     backgroundColor: "green",
