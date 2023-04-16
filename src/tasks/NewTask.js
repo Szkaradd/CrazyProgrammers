@@ -11,9 +11,8 @@ import {
   SafeAreaView,
   StyleSheet,
   Alert,
-  Platform,
-  StatusBar,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Timer from "./Timer";
@@ -34,7 +33,8 @@ export default function NewTask({ route }) {
   const { tasksDeclined, setTasksDeclined } = useContext(TasksDeclinedContext);
   const navigation = useNavigation();
 
-  useEffect(() => { // break reminder handling
+  useEffect(() => {
+    // break reminder handling
     if (timeForBreak()) {
       navigation.navigate("StartBreak");
     }
@@ -72,38 +72,34 @@ export default function NewTask({ route }) {
       </View>
 
       <View style={styles.decision_container}>
-        <View style={styles.accept_style}>
-          <Button
-            title="Accept"
-            color="white"
-            fontSize="50"
-            onPress={() => {
-              Alert.alert("Task Accepted");
-              setCurrentTaskVar(task);
-              navigation.navigate("CurrentTask");
-            }}
-          />
-        </View>
-        <View style={styles.decline_style}>
-          <Button
-            title="Decline"
-            color="white"
-            onPress={() => {
-              if (tasksDeclined < 3) {
-                setTasksDeclined(tasksDeclined + 1);
-                // declined - don't show this task again
-                var new_tasks = DeleteTask(tasks, task_id);
-                setTasks(new_tasks);
-                Alert.alert("Task Declined");
-                var new_task = AssignTask(new_tasks, curr_loc);
-                navigation.navigate("NewTask", { task: new_task, curr_loc });
-              }
-              else {
-                Alert.alert("You have declined too many tasks today!");
-              }
-            }}
-          />
-        </View>
+        <TouchableOpacity
+          style={styles.accept_style}
+          onPress={() => {
+            Alert.alert("Task Accepted");
+            setCurrentTaskVar(task);
+            navigation.navigate("CurrentTask");
+          }}
+        >
+          <Text style={styles.text_style}>Accept</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.decline_style}
+          onPress={() => {
+            if (tasksDeclined < 3) {
+              setTasksDeclined(tasksDeclined + 1);
+              // declined - don't show this task again
+              var new_tasks = DeleteTask(tasks, task_id);
+              setTasks(new_tasks);
+              Alert.alert("Task Declined");
+              var new_task = AssignTask(new_tasks, curr_loc);
+              navigation.navigate("NewTask", { task: new_task, curr_loc });
+            } else {
+              Alert.alert("You have declined too many tasks today!");
+            }
+          }}
+        >
+          <Text style={styles.text_style}>Decline</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -128,7 +124,6 @@ const list_styles = StyleSheet.create({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
     flex: 1,
   },
   title_container: {
@@ -148,7 +143,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   decision_container: {
-    backgroundColor: "red",
+    backgroundColor: "white",
     flex: 1,
     flexDirection: "row",
   },

@@ -4,8 +4,16 @@ It shows information about currently assigned task and provides
 a button enabling the worker to finish the task in the application
 */
 
-import { View, Text, SafeAreaView, StyleSheet, Alert, FlatList, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Alert,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import React, { useContext } from "react";
 import { TaskContext } from "./TaskContext";
 import { DeleteTask } from "../data/tasks";
@@ -14,19 +22,19 @@ import { CurrentTaskContext } from "../context/CurrentTaskContext";
 import { GetTaskDetails } from "../data/tasks";
 
 export default function CurrentTask({ route }) {
-    const { tasks, setTasks } = useContext(TaskContext);
-    const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
+  const { tasks, setTasks } = useContext(TaskContext);
+  const { currentTaskVar, setCurrentTaskVar } = useContext(CurrentTaskContext);
 
-    const navigation = useNavigation();
-    const task_details = GetTaskDetails(currentTaskVar);
-    const task_id = currentTaskVar.package_id;
-    const new_loc = currentTaskVar.destination;
-    const ListItem = ({ item }) => (
-        <View style={list_styles.item}>
-          <Text style={list_styles.text}>{item.label}:</Text>
-          <Text style={list_styles.text}>{item.value}</Text>
-        </View>
-      );
+  const navigation = useNavigation();
+  const task_details = GetTaskDetails(currentTaskVar);
+  const task_id = currentTaskVar.package_id;
+  const new_loc = currentTaskVar.destination;
+  const ListItem = ({ item }) => (
+    <View style={list_styles.item}>
+      <Text style={list_styles.text}>{item.label}:</Text>
+      <Text style={list_styles.text}>{item.value}</Text>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -43,35 +51,34 @@ export default function CurrentTask({ route }) {
         />
       </View>
 
-      <View style={styles.finish_style}>
-        <Button
-          title="Finish task"
-          color="white"
-          onPress={() =>
-            Alert.alert("Are you sure?", "I have finished this task", [
-              {
-                text: "Yes",
-                onPress: () => {
-                  Alert.alert("Well done!");
-                  setTasks(DeleteTask(tasks, task_id)); // task is done
-                  if (timeForBreak()) {
-                    navigation.navigate("StartBreak");
-                  } else {
-                    navigation.navigate("NewTask", {
-                      task: null,
-                      curr_loc: new_loc,
-                    });
-                  }
-                },
+      <TouchableOpacity
+        style={styles.finish_style}
+        onPress={() =>
+          Alert.alert("Are you sure?", "I have finished this task", [
+            {
+              text: "Yes",
+              onPress: () => {
+                Alert.alert("Well done!");
+                setTasks(DeleteTask(tasks, task_id)); // task is done
+                if (timeForBreak()) {
+                  navigation.navigate("StartBreak");
+                } else {
+                  navigation.navigate("NewTask", {
+                    task: null,
+                    curr_loc: new_loc,
+                  });
+                }
               },
-              {
-                text: "No",
-                onPress: () => Alert.alert("Keep working. Good luck!"),
-              },
-            ])
-          }
-        />
-      </View>
+            },
+            {
+              text: "No",
+              onPress: () => Alert.alert("Keep working. Good luck!"),
+            },
+          ])
+        }
+      >
+        <Text style={styles.text_style}>Finish task</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
