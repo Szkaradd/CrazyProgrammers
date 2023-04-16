@@ -15,11 +15,9 @@ import { AssignTask } from "./AssignTask";
 import React, { useContext } from "react";
 import { TaskContext } from "./TaskContext";
 import { GetTaskDetails } from "../data/tasks";
-import { Location } from "../data/tasks";
 import { timeForBreak } from "../breaks/BreakManager";
 import { useEffect } from "react";
 import { CurrentTaskContext } from "../context/CurrentTaskContext";
-import { user } from "../User";
 import { DeleteTask } from "../data/tasks";
 
 export default function NewTask({ route }) {
