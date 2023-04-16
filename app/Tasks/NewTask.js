@@ -1,30 +1,26 @@
 import { Button } from 'react-native';
 import { View, Text, SafeAreaView, StyleSheet, Alert, Platform, StatusBar, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Timer from '../Timer';
+import Timer from './Timer';
 import { AssignTask } from './AssignTask';
-import React, { useState, useEffect } from 'react';
-import { tasks } from '../data/tasks';
+import React, { useContext } from 'react';
+import { TaskContext } from './TaskContext';
+import { GetTaskDetails } from '../data/tasks';
+import { Location } from '../data/tasks';
 
-
-
-function GetNewTaskDetails(i) {
-    var task = tasks[i];
-    return [
-        { label: 'Weight', value: `${task.weight}kg` },
-        { label: 'Location', value: task.location },
-        { label: 'Destination', value: task.destination },
-        { label: 'Total Distance', value: `${task.total_distance}m` },
-        { label: 'Package ID', value: task.package_id },
-    ];
+function GetNewTaskDetails(tasks) {
+    var loc = new Location(1, "A");
+    var new_task = AssignTask(tasks, loc, "M", "FAR");
+    return GetTaskDetails(new_task);
 }
 
 export default function NewTask({ route }) {
+  const { tasks, setTasks } = useContext(TaskContext);
   const navigation = useNavigation();
   var { task_details } = route.params;
 
   if (task_details == null) {
-    task_details = GetNewTaskDetails(0);
+    task_details = GetNewTaskDetails(tasks);
   }
 
   const ListItem = ({ item }) => (
@@ -71,7 +67,7 @@ export default function NewTask({ route }) {
                 color="white"
                 onPress={() => {
                   Alert.alert("Task Declined");
-                  new_details = GetNewTaskDetails(1);
+                  new_details = GetNewTaskDetails(tasks);
                   navigation.navigate('NewTask', {task_details: new_details});
                   }
                 }
